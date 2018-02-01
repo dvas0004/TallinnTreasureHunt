@@ -1,0 +1,210 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+  var _CollectionReference = require(_dependencyMap[0], "./CollectionReference");
+
+  var _CollectionReference2 = _interopRequireDefault(_CollectionReference);
+
+  var _DocumentSnapshot = require(_dependencyMap[1], "./DocumentSnapshot");
+
+  var _DocumentSnapshot2 = _interopRequireDefault(_DocumentSnapshot);
+
+  var _serialize = require(_dependencyMap[2], "./utils/serialize");
+
+  var _utils = require(_dependencyMap[3], "../../utils");
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  var DocumentReference = function () {
+    function DocumentReference(firestore, documentPath) {
+      _classCallCheck(this, DocumentReference);
+
+      this._documentPath = documentPath;
+      this._firestore = firestore;
+    }
+
+    _createClass(DocumentReference, [{
+      key: "collection",
+      value: function collection(collectionPath) {
+        var path = this._documentPath.child(collectionPath);
+
+        if (!path.isCollection) {
+          throw new Error('Argument "collectionPath" must point to a collection.');
+        }
+
+        return new _CollectionReference2.default(this._firestore, path);
+      }
+    }, {
+      key: "delete",
+      value: function _delete() {
+        return this._firestore._native.documentDelete(this.path);
+      }
+    }, {
+      key: "get",
+      value: function get() {
+        var _this = this;
+
+        return this._firestore._native.documentGet(this.path).then(function (result) {
+          return new _DocumentSnapshot2.default(_this._firestore, result);
+        });
+      }
+    }, {
+      key: "onSnapshot",
+      value: function onSnapshot(optionsOrObserverOrOnNext, observerOrOnNextOrOnError, onError) {
+        var _this2 = this;
+
+        var observer = {};
+        var docListenOptions = {};
+
+        if ((0, _utils.isFunction)(optionsOrObserverOrOnNext)) {
+          observer.next = optionsOrObserverOrOnNext;
+
+          if (observerOrOnNextOrOnError && !(0, _utils.isFunction)(observerOrOnNextOrOnError)) {
+            throw new Error('DocumentReference.onSnapshot failed: Second argument must be a valid function.');
+          }
+
+          observer.error = observerOrOnNextOrOnError;
+        } else if (optionsOrObserverOrOnNext && (0, _utils.isObject)(optionsOrObserverOrOnNext)) {
+          if (optionsOrObserverOrOnNext.next) {
+            if ((0, _utils.isFunction)(optionsOrObserverOrOnNext.next)) {
+              if (optionsOrObserverOrOnNext.error && !(0, _utils.isFunction)(optionsOrObserverOrOnNext.error)) {
+                throw new Error('DocumentReference.onSnapshot failed: Observer.error must be a valid function.');
+              }
+
+              observer = optionsOrObserverOrOnNext;
+            } else {
+              throw new Error('DocumentReference.onSnapshot failed: Observer.next must be a valid function.');
+            }
+          } else if (optionsOrObserverOrOnNext.includeMetadataChanges) {
+            docListenOptions = optionsOrObserverOrOnNext;
+
+            if ((0, _utils.isFunction)(observerOrOnNextOrOnError)) {
+              observer.next = observerOrOnNextOrOnError;
+
+              if (onError && !(0, _utils.isFunction)(onError)) {
+                throw new Error('DocumentReference.onSnapshot failed: Third argument must be a valid function.');
+              }
+
+              observer.error = onError;
+            } else if (observerOrOnNextOrOnError && (0, _utils.isObject)(observerOrOnNextOrOnError) && observerOrOnNextOrOnError.next) {
+              if ((0, _utils.isFunction)(observerOrOnNextOrOnError.next)) {
+                if (observerOrOnNextOrOnError.error && !(0, _utils.isFunction)(observerOrOnNextOrOnError.error)) {
+                  throw new Error('DocumentReference.onSnapshot failed: Observer.error must be a valid function.');
+                }
+
+                observer = observerOrOnNextOrOnError;
+              } else {
+                throw new Error('DocumentReference.onSnapshot failed: Observer.next must be a valid function.');
+              }
+            } else {
+              throw new Error('DocumentReference.onSnapshot failed: Second argument must be a function or observer.');
+            }
+          } else {
+            throw new Error('DocumentReference.onSnapshot failed: First argument must be a function, observer or options.');
+          }
+        } else {
+          throw new Error('DocumentReference.onSnapshot failed: Called with invalid arguments.');
+        }
+
+        var listenerId = (0, _utils.firestoreAutoId)();
+
+        var listener = function listener(nativeDocumentSnapshot) {
+          var documentSnapshot = new _DocumentSnapshot2.default(_this2.firestore, nativeDocumentSnapshot);
+          observer.next(documentSnapshot);
+        };
+
+        this._firestore.on(this._firestore._getAppEventName("onDocumentSnapshot:" + listenerId), listener);
+
+        if (observer.error) {
+          this._firestore.on(this._firestore._getAppEventName("onDocumentSnapshotError:" + listenerId), observer.error);
+        }
+
+        this._firestore._native.documentOnSnapshot(this.path, listenerId, docListenOptions);
+
+        return this._offDocumentSnapshot.bind(this, listenerId, listener);
+      }
+    }, {
+      key: "set",
+      value: function set(data, writeOptions) {
+        var nativeData = (0, _serialize.buildNativeMap)(data);
+        return this._firestore._native.documentSet(this.path, nativeData, writeOptions);
+      }
+    }, {
+      key: "update",
+      value: function update() {
+        var data = {};
+
+        if (arguments.length === 1) {
+          if (!(0, _utils.isObject)(arguments.length <= 0 ? undefined : arguments[0])) {
+            throw new Error('DocumentReference.update failed: If using a single argument, it must be an object.');
+          }
+
+          data = arguments.length <= 0 ? undefined : arguments[0];
+        } else if (arguments.length % 2 === 1) {
+          throw new Error('DocumentReference.update failed: Must have either a single object argument, or equal numbers of key/value pairs.');
+        } else {
+          for (var i = 0; i < arguments.length; i += 2) {
+            var key = arguments.length <= i ? undefined : arguments[i];
+            var value = arguments.length <= i + 1 ? undefined : arguments[i + 1];
+
+            if (!(0, _utils.isString)(key)) {
+              throw new Error("DocumentReference.update failed: Argument at index " + i + " must be a string");
+            }
+
+            data[key] = value;
+          }
+        }
+
+        var nativeData = (0, _serialize.buildNativeMap)(data);
+        return this._firestore._native.documentUpdate(this.path, nativeData);
+      }
+    }, {
+      key: "_offDocumentSnapshot",
+      value: function _offDocumentSnapshot(listenerId, listener) {
+        this._firestore.log.info('Removing onDocumentSnapshot listener');
+
+        this._firestore.removeListener(this._firestore._getAppEventName("onDocumentSnapshot:" + listenerId), listener);
+
+        this._firestore.removeListener(this._firestore._getAppEventName("onDocumentSnapshotError:" + listenerId), listener);
+
+        this._firestore._native.documentOffSnapshot(this.path, listenerId);
+      }
+    }, {
+      key: "firestore",
+      get: function get() {
+        return this._firestore;
+      }
+    }, {
+      key: "id",
+      get: function get() {
+        return this._documentPath.id;
+      }
+    }, {
+      key: "parent",
+      get: function get() {
+        var parentPath = this._documentPath.parent();
+
+        if (!parentPath) {
+          throw new Error('Invalid document path');
+        }
+
+        return new _CollectionReference2.default(this._firestore, parentPath);
+      }
+    }, {
+      key: "path",
+      get: function get() {
+        return this._documentPath.relativeName;
+      }
+    }]);
+
+    return DocumentReference;
+  }();
+
+  exports.default = DocumentReference;
+});

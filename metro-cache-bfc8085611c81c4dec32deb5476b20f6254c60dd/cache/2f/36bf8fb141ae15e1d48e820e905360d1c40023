@@ -1,0 +1,93 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+  var _serialize = require(_dependencyMap[0], "./utils/serialize");
+
+  var _utils = require(_dependencyMap[1], "../../utils");
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  var WriteBatch = function () {
+    function WriteBatch(firestore) {
+      _classCallCheck(this, WriteBatch);
+
+      this._firestore = firestore;
+      this._writes = [];
+    }
+
+    _createClass(WriteBatch, [{
+      key: "commit",
+      value: function commit() {
+        return this._firestore._native.documentBatch(this._writes);
+      }
+    }, {
+      key: "delete",
+      value: function _delete(docRef) {
+        this._writes.push({
+          path: docRef.path,
+          type: 'DELETE'
+        });
+
+        return this;
+      }
+    }, {
+      key: "set",
+      value: function set(docRef, data, writeOptions) {
+        var nativeData = (0, _serialize.buildNativeMap)(data);
+
+        this._writes.push({
+          data: nativeData,
+          options: writeOptions,
+          path: docRef.path,
+          type: 'SET'
+        });
+
+        return this;
+      }
+    }, {
+      key: "update",
+      value: function update(docRef) {
+        var data = {};
+
+        if ((arguments.length <= 1 ? 0 : arguments.length - 1) === 1) {
+          if (!(0, _utils.isObject)(arguments.length <= 1 ? undefined : arguments[1])) {
+            throw new Error('DocumentReference.update failed: If using two arguments, the second must be an object.');
+          }
+
+          data = arguments.length <= 1 ? undefined : arguments[1];
+        } else if ((arguments.length <= 1 ? 0 : arguments.length - 1) % 2 === 1) {
+          throw new Error('DocumentReference.update failed: Must have a document reference, followed by either a single object argument, or equal numbers of key/value pairs.');
+        } else {
+          for (var i = 0; i < (arguments.length <= 1 ? 0 : arguments.length - 1); i += 2) {
+            var key = arguments.length <= i + 1 ? undefined : arguments[i + 1];
+            var value = arguments.length <= i + 1 + 1 ? undefined : arguments[i + 1 + 1];
+
+            if (!(0, _utils.isString)(key)) {
+              throw new Error("DocumentReference.update failed: Argument at index " + (i + 1) + " must be a string");
+            }
+
+            data[key] = value;
+          }
+        }
+
+        var nativeData = (0, _serialize.buildNativeMap)(data);
+
+        this._writes.push({
+          data: nativeData,
+          path: docRef.path,
+          type: 'UPDATE'
+        });
+
+        return this;
+      }
+    }]);
+
+    return WriteBatch;
+  }();
+
+  exports.default = WriteBatch;
+});

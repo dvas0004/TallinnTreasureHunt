@@ -1,0 +1,192 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  var _react2 = require(_dependencyMap[0], "react");
+
+  var _react3 = _interopRequireDefault(_react2);
+
+  var _index = require(_dependencyMap[1], "./../node_modules/react-transform-hmr/lib/index.js");
+
+  var _index2 = _interopRequireDefault(_index);
+
+  var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+  var _jsxFileName = "/home/dvas0004/Dropbox/TallinnTreasureHunt/components/TreasureHuntMap.js";
+
+  var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+  var _reactNative = require(_dependencyMap[2], "react-native");
+
+  var _reactRedux = require(_dependencyMap[3], "react-redux");
+
+  var _reactNativeMaps = require(_dependencyMap[4], "react-native-maps");
+
+  var _reactNativeMaps2 = _interopRequireDefault(_reactNativeMaps);
+
+  var _actions = require(_dependencyMap[5], "../actions");
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+  function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+  var _components = {
+    TreasureHuntMap: {
+      displayName: "TreasureHuntMap"
+    }
+  };
+
+  var _node_modulesReactTransformHmrLibIndexJs2 = (0, _index2.default)({
+    filename: "/home/dvas0004/Dropbox/TallinnTreasureHunt/components/TreasureHuntMap.js",
+    components: _components,
+    locals: [module],
+    imports: [_react3.default]
+  });
+
+  function _wrapComponent(id) {
+    return function (Component) {
+      return _node_modulesReactTransformHmrLibIndexJs2(Component, id);
+    };
+  }
+
+  var TreasureHuntMap = _wrapComponent("TreasureHuntMap")(function (_Component) {
+    _inherits(TreasureHuntMap, _Component);
+
+    function TreasureHuntMap(props) {
+      _classCallCheck(this, TreasureHuntMap);
+
+      var _this = _possibleConstructorReturn(this, (TreasureHuntMap.__proto__ || Object.getPrototypeOf(TreasureHuntMap)).call(this, props));
+
+      _this.state = {
+        puzzleLocation: {
+          longitude: null,
+          latitude: null
+        },
+        position: _this.props.appData && _this.props.appData.position || {
+          "latitude": null,
+          "longitude": null
+        }
+      };
+      return _this;
+    }
+
+    _createClass(TreasureHuntMap, [{
+      key: "render",
+      value: function render() {
+        var _this2 = this;
+
+        var positionSource = this.props.appData && this.props.appData.position || this.state.position;
+        var latitude = positionSource.latitude;
+        var longitude = positionSource.longitude;
+        console.log("Rendering TreasureHuntMap with:");
+        console.log(this.props.appData);
+        var puzzleMarkers = [];
+        var solvedPuzzles = this.props.appData && this.props.appData.solvedPuzzles || [];
+
+        for (puzzle in this.props.appData.puzzles) {
+          var currentPuzzle = this.props.appData.puzzles[puzzle];
+          console.log("Puzzle Loop");
+          console.log(currentPuzzle);
+          var currentPuzzleColor = null;
+
+          if (solvedPuzzles.indexOf(puzzle) > -1) {
+            currentPuzzleColor = "green";
+          } else {
+            currentPuzzleColor = "blue";
+          }
+
+          puzzleMarkers.push(_react3.default.createElement(_reactNativeMaps2.default.Marker, {
+            identifier: puzzle,
+            key: currentPuzzle.name,
+            coordinate: {
+              latitude: currentPuzzle.lat,
+              longitude: currentPuzzle.long
+            },
+            title: currentPuzzle.name,
+            pinColor: currentPuzzleColor,
+            description: currentPuzzle.question,
+            onPress: function onPress(e) {
+              console.log("puzzle selected:");
+              console.log(e.nativeEvent);
+
+              _this2.props.puzzleSelected(e.nativeEvent.id);
+
+              _this2.setState({
+                puzzleLocation: {
+                  longitude: e.nativeEvent.coordinate.longitude,
+                  latitude: e.nativeEvent.coordinate.latitude
+                }
+              });
+            },
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 49
+            }
+          }));
+        }
+
+        console.log("Puzzle Markers:");
+        console.log(puzzleMarkers.length);
+        console.log("--------------");
+        return _react3.default.createElement(
+          _reactNativeMaps2.default,
+          {
+            style: styles.map,
+            region: {
+              latitude: this.state.puzzleLocation.latitude || 59.436931,
+              longitude: this.state.puzzleLocation.longitude || 24.745645,
+              latitudeDelta: 0.032,
+              longitudeDelta: 0.032
+            },
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 79
+            }
+          },
+          latitude ? _react3.default.createElement(_reactNativeMaps2.default.Marker, {
+            coordinate: {
+              latitude: latitude,
+              longitude: longitude
+            },
+            title: "You",
+            description: "Your Position",
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 89
+            }
+          }) : null,
+          puzzleMarkers
+        );
+      }
+    }]);
+
+    return TreasureHuntMap;
+  }(_react2.Component));
+
+  var styles = _reactNative.StyleSheet.create({
+    map: _extends({}, _reactNative.StyleSheet.absoluteFillObject, {
+      top: 10
+    })
+  });
+
+  function mapStateToProps(state) {
+    return {
+      appData: state.appData
+    };
+  }
+
+  function mapDispatchToProps(dispatch) {
+    return {
+      puzzleSelected: function puzzleSelected(data) {
+        return dispatch((0, _actions.puzzleSelected)(data));
+      }
+    };
+  }
+
+  exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(TreasureHuntMap);
+});

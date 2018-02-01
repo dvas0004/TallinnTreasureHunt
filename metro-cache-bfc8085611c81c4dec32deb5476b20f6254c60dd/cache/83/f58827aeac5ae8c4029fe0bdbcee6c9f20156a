@@ -1,0 +1,98 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.statics = undefined;
+
+  var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+  var _reactNative = require(_dependencyMap[0], "react-native");
+
+  var _reference = require(_dependencyMap[1], "./reference");
+
+  var _reference2 = _interopRequireDefault(_reference);
+
+  var _transaction = require(_dependencyMap[2], "./transaction");
+
+  var _transaction2 = _interopRequireDefault(_transaction);
+
+  var _ModuleBase2 = require(_dependencyMap[3], "./../../utils/ModuleBase");
+
+  var _ModuleBase3 = _interopRequireDefault(_ModuleBase2);
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+  function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+  var Database = function (_ModuleBase) {
+    _inherits(Database, _ModuleBase);
+
+    function Database(firebaseApp) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+      _classCallCheck(this, Database);
+
+      var _this = _possibleConstructorReturn(this, (Database.__proto__ || Object.getPrototypeOf(Database)).call(this, firebaseApp, options, true));
+
+      _this._transactionHandler = new _transaction2.default(_this);
+
+      if (_this._options.persistence) {
+        _this._native.setPersistence(_this._options.persistence);
+      }
+
+      setTimeout(function () {
+        _this._serverTimeOffset = 0;
+        _this._offsetRef = _this.ref('.info/serverTimeOffset');
+
+        _this._offsetRef.on('value', function (snapshot) {
+          _this._serverTimeOffset = snapshot.val() || _this._serverTimeOffset;
+        });
+      }, 1);
+      return _this;
+    }
+
+    _createClass(Database, [{
+      key: "getServerTime",
+      value: function getServerTime() {
+        return new Date(Date.now() + this._serverTimeOffset);
+      }
+    }, {
+      key: "goOnline",
+      value: function goOnline() {
+        this._native.goOnline();
+      }
+    }, {
+      key: "goOffline",
+      value: function goOffline() {
+        this._native.goOffline();
+      }
+    }, {
+      key: "ref",
+      value: function ref(path) {
+        return new _reference2.default(this, path);
+      }
+    }]);
+
+    return Database;
+  }(_ModuleBase3.default);
+
+  Database._NAMESPACE = 'database';
+  Database._NATIVE_MODULE = 'RNFirebaseDatabase';
+  exports.default = Database;
+  var statics = exports.statics = {
+    ServerValue: _reactNative.NativeModules.RNFirebaseDatabase ? {
+      TIMESTAMP: _reactNative.NativeModules.RNFirebaseDatabase.serverValueTimestamp || {
+        '.sv': 'timestamp'
+      }
+    } : {},
+    enableLogging: function enableLogging(enabled) {
+      if (_reactNative.NativeModules[Database._NATIVE_MODULE]) {
+        _reactNative.NativeModules[Database._NATIVE_MODULE].enableLogging(enabled);
+      }
+    }
+  };
+});

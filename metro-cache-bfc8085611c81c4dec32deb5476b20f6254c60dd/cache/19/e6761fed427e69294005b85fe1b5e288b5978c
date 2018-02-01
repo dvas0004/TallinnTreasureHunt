@@ -1,0 +1,14 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  var FETCHING_DATA = exports.FETCHING_DATA = 'FETCHING_DATA';
+  var FETCHING_DATA_SUCCESS = exports.FETCHING_DATA_SUCCESS = 'FETCHING_DATA_SUCCESS';
+  var FETCHING_DATA_FAILURE = exports.FETCHING_DATA_FAILURE = 'FETCHING_DATA_FAILURE';
+  var NEW_LOCATION = exports.NEW_LOCATION = 'NEW_LOCATION';
+  var USER_DATA = exports.USER_DATA = 'USER_DATA';
+  var PUZZLE_DATA = exports.PUZZLE_DATA = 'PUZZLE_DATA';
+  var PUZZLE_SELECTED = exports.PUZZLE_SELECTED = 'PUZZLE_SELECTED';
+  var CORRECT_ANSWER = exports.CORRECT_ANSWER = 'CORRECT_ANSWER';
+  var MODAL_CHANGED = exports.MODAL_CHANGED = 'MODAL_CHANGED';
+});

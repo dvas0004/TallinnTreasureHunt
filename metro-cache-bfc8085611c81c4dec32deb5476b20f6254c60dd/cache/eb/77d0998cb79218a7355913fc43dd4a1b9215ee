@@ -1,0 +1,12 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+  module.exports = require(_dependencyMap[0], "react-native/Libraries/Image/AssetRegistry").registerAsset({
+    "__packager_asset": true,
+    "httpServerLocation": "/assets/img",
+    "width": 489,
+    "height": 489,
+    "scales": [1],
+    "hash": "f54c14814cee6c8583442960ae0069cf",
+    "name": "compass",
+    "type": "png"
+  });
+});

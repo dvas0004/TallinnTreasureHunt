@@ -1,0 +1,31 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.persistor = exports.store = undefined;
+
+  var _redux = require(_dependencyMap[0], "redux");
+
+  var _reduxPersist = require(_dependencyMap[1], "redux-persist");
+
+  var _reducers = require(_dependencyMap[2], "./reducers");
+
+  var _reducers2 = _interopRequireDefault(_reducers);
+
+  var _reactNative = require(_dependencyMap[3], "react-native");
+
+  var _reduxLogger = require(_dependencyMap[4], "redux-logger");
+
+  var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+  var persistConfig = {
+    key: 'root',
+    storage: _reactNative.AsyncStorage,
+    stateReconciler: _reduxPersist.autoMergeLevel2
+  };
+  var persistReducerInst = (0, _reduxPersist.persistReducer)(persistConfig, _reducers2.default);
+  var store = exports.store = (0, _redux.createStore)(persistReducerInst, (0, _redux.applyMiddleware)(_reduxLogger2.default));
+  var persistor = exports.persistor = (0, _reduxPersist.persistStore)(store);
+});

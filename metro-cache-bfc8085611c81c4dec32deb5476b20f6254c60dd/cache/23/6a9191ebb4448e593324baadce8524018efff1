@@ -1,0 +1,144 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.statics = undefined;
+
+  var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+  var _ModuleBase2 = require(_dependencyMap[0], "./../../utils/ModuleBase");
+
+  var _ModuleBase3 = _interopRequireDefault(_ModuleBase2);
+
+  var _Interstitial = require(_dependencyMap[1], "./Interstitial");
+
+  var _Interstitial2 = _interopRequireDefault(_Interstitial);
+
+  var _RewardedVideo = require(_dependencyMap[2], "./RewardedVideo");
+
+  var _RewardedVideo2 = _interopRequireDefault(_RewardedVideo);
+
+  var _AdRequest = require(_dependencyMap[3], "./AdRequest");
+
+  var _AdRequest2 = _interopRequireDefault(_AdRequest);
+
+  var _VideoOptions = require(_dependencyMap[4], "./VideoOptions");
+
+  var _VideoOptions2 = _interopRequireDefault(_VideoOptions);
+
+  var _Banner = require(_dependencyMap[5], "./Banner");
+
+  var _Banner2 = _interopRequireDefault(_Banner);
+
+  var _NativeExpress = require(_dependencyMap[6], "./NativeExpress");
+
+  var _NativeExpress2 = _interopRequireDefault(_NativeExpress);
+
+  var _EventTypes = require(_dependencyMap[7], "./EventTypes");
+
+  var _EventTypes2 = _interopRequireDefault(_EventTypes);
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+  function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+  var AdMob = function (_ModuleBase) {
+    _inherits(AdMob, _ModuleBase);
+
+    function AdMob(firebaseApp) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+      _classCallCheck(this, AdMob);
+
+      var _this = _possibleConstructorReturn(this, (AdMob.__proto__ || Object.getPrototypeOf(AdMob)).call(this, firebaseApp, options, true));
+
+      _this._initialized = false;
+      _this._appId = null;
+
+      _this._eventEmitter.addListener('interstitial_event', _this._onInterstitialEvent.bind(_this));
+
+      _this._eventEmitter.addListener('rewarded_video_event', _this._onRewardedVideoEvent.bind(_this));
+
+      return _this;
+    }
+
+    _createClass(AdMob, [{
+      key: "_onInterstitialEvent",
+      value: function _onInterstitialEvent(event) {
+        var adUnit = event.adUnit;
+        var jsEventType = "interstitial_" + adUnit;
+
+        if (!this.hasListeners(jsEventType)) {}
+
+        this.emit(jsEventType, event);
+      }
+    }, {
+      key: "_onRewardedVideoEvent",
+      value: function _onRewardedVideoEvent(event) {
+        var adUnit = event.adUnit;
+        var jsEventType = "rewarded_video_" + adUnit;
+
+        if (!this.hasListeners(jsEventType)) {}
+
+        this.emit(jsEventType, event);
+      }
+    }, {
+      key: "initialize",
+      value: function initialize(appId) {
+        if (this._initialized) {
+          this.log.warn('AdMob has already been initialized!');
+        } else {
+          this._initialized = true;
+          this._appId = appId;
+
+          this._native.initialize(appId);
+        }
+      }
+    }, {
+      key: "openDebugMenu",
+      value: function openDebugMenu() {
+        if (!this._initialized) {
+          this.log.warn('AdMob needs to be initialized before opening the dev menu!');
+        } else {
+          this.log.info('Opening debug menu');
+
+          this._native.openDebugMenu(this._appId);
+        }
+      }
+    }, {
+      key: "interstitial",
+      value: function interstitial(adUnit) {
+        return new _Interstitial2.default(this, adUnit);
+      }
+    }, {
+      key: "rewarded",
+      value: function rewarded(adUnit) {
+        return new _RewardedVideo2.default(this, adUnit);
+      }
+    }, {
+      key: "namespace",
+      get: function get() {
+        return 'firebase:admob';
+      }
+    }]);
+
+    return AdMob;
+  }(_ModuleBase3.default);
+
+  AdMob._NAMESPACE = 'admob';
+  AdMob._NATIVE_MODULE = 'RNFirebaseAdMob';
+  exports.default = AdMob;
+  var statics = exports.statics = {
+    Banner: _Banner2.default,
+    NativeExpress: _NativeExpress2.default,
+    AdRequest: _AdRequest2.default,
+    VideoOptions: _VideoOptions2.default,
+    EventTypes: _EventTypes2.default,
+    RewardedVideoEventTypes: _EventTypes.RewardedVideoEventTypes,
+    NativeExpressEventTypes: _EventTypes.NativeExpressEventTypes
+  };
+});

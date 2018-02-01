@@ -1,0 +1,85 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+  exports.default = dataReducer;
+
+  var _reduxPersist = require(_dependencyMap[0], "redux-persist");
+
+  var _constants = require(_dependencyMap[1], "../constants");
+
+  var initialState = {
+    data: [],
+    dataFetched: false,
+    isFetching: false,
+    error: false
+  };
+
+  function dataReducer() {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+    var action = arguments[1];
+
+    switch (action.type) {
+      case _constants.FETCHING_DATA:
+        return _extends({}, state, {
+          data: [],
+          isFetching: true
+        });
+
+      case _constants.FETCHING_DATA_SUCCESS:
+        return _extends({}, state, {
+          isFetching: false,
+          data: action.data
+        });
+
+      case _constants.FETCHING_DATA_FAILURE:
+        return _extends({}, state, {
+          isFetching: false,
+          error: true
+        });
+
+      case _constants.NEW_LOCATION:
+        return _extends({}, state, {
+          position: action.data
+        });
+
+      case _constants.USER_DATA:
+        return _extends({}, state, {
+          user: action.data
+        });
+
+      case _constants.PUZZLE_DATA:
+        return _extends({}, state, {
+          puzzles: action.data
+        });
+
+      case _constants.PUZZLE_SELECTED:
+        return _extends({}, state, {
+          puzzle_selected: action.data
+        });
+
+      case _constants.MODAL_CHANGED:
+        return _extends({}, state, {
+          modalVisible: action.data
+        });
+
+      case _constants.CORRECT_ANSWER:
+        var curState = _extends({}, state);
+
+        var solvedPuzzles = curState.solvedPuzzles || [];
+        solvedPuzzles.push(action.data);
+
+        var curState = _extends({}, state, {
+          solvedPuzzles: solvedPuzzles
+        });
+
+        return curState;
+
+      default:
+        return state;
+    }
+  }
+});

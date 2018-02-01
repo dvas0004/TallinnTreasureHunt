@@ -1,0 +1,383 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  var _react2 = require(_dependencyMap[0], "react");
+
+  var _react3 = _interopRequireDefault(_react2);
+
+  var _index = require(_dependencyMap[1], "./../node_modules/react-transform-hmr/lib/index.js");
+
+  var _index2 = _interopRequireDefault(_index);
+
+  var _jsxFileName = "/home/dvas0004/Dropbox/TallinnTreasureHunt/components/Tutorial.js";
+
+  var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+  var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+  var _reactNative = require(_dependencyMap[2], "react-native");
+
+  var _reactRedux = require(_dependencyMap[3], "react-redux");
+
+  var _actions = require(_dependencyMap[4], "../actions");
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+  function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+  var _components = {
+    Tutorial: {
+      displayName: "Tutorial"
+    }
+  };
+
+  var _node_modulesReactTransformHmrLibIndexJs2 = (0, _index2.default)({
+    filename: "/home/dvas0004/Dropbox/TallinnTreasureHunt/components/Tutorial.js",
+    components: _components,
+    locals: [module],
+    imports: [_react3.default]
+  });
+
+  function _wrapComponent(id) {
+    return function (Component) {
+      return _node_modulesReactTransformHmrLibIndexJs2(Component, id);
+    };
+  }
+
+  var Tutorial = _wrapComponent("Tutorial")(function (_Component) {
+    _inherits(Tutorial, _Component);
+
+    function Tutorial(props) {
+      _classCallCheck(this, Tutorial);
+
+      var _this = _possibleConstructorReturn(this, (Tutorial.__proto__ || Object.getPrototypeOf(Tutorial)).call(this, props));
+
+      _this.state = _extends({}, _this.state, {
+        page: 1
+      });
+      return _this;
+    }
+
+    _createClass(Tutorial, [{
+      key: "render",
+      value: function render() {
+        var _this2 = this;
+
+        var tutorialView = null;
+
+        if (this.state.page == 1) {
+          tutorialView = _react3.default.createElement(
+            _reactNative.View,
+            {
+              style: styles.tutorialContainer,
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 28
+              }
+            },
+            _react3.default.createElement(_reactNative.Image, {
+              style: styles.icon,
+              source: require(_dependencyMap[5], '../img/question.png'),
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 29
+              }
+            }),
+            _react3.default.createElement(
+              _reactNative.Text,
+              {
+                style: {
+                  fontWeight: "bold",
+                  fontSize: 20
+                },
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 34
+                }
+              },
+              "Welcome to Tallinn Treasure Hunt!"
+            ),
+            _react3.default.createElement(
+              _reactNative.Text,
+              {
+                style: {
+                  fontSize: 20,
+                  padding: 10
+                },
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 37
+                }
+              },
+              "Your objective is simple: Roam the streets of Tallinn to answer as many puzzle questions as you can!"
+            )
+          );
+        } else if (this.state.page == 2) {
+          tutorialView = _react3.default.createElement(
+            _reactNative.View,
+            {
+              style: styles.tutorialContainer,
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 44
+              }
+            },
+            _react3.default.createElement(_reactNative.Image, {
+              style: styles.icon,
+              source: require(_dependencyMap[6], '../img/map.png'),
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 45
+              }
+            }),
+            _react3.default.createElement(
+              _reactNative.Text,
+              {
+                style: {
+                  padding: 10
+                },
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 50
+                }
+              },
+              "Using the map, you can see where your current position is, and where puzzles are located in Tallinn. Walk towards these puzzles and when close, tap on the puzzle. You will be asked a question that has several answer options to choose from."
+            ),
+            _react3.default.createElement(
+              _reactNative.Text,
+              {
+                style: {
+                  padding: 10,
+                  color: "red"
+                },
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 57
+                }
+              },
+              "Your position is marked in red"
+            ),
+            _react3.default.createElement(
+              _reactNative.Text,
+              {
+                style: {
+                  padding: 10,
+                  color: "blue"
+                },
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 61
+                }
+              },
+              "Unanswered puzzles are marked in blue"
+            ),
+            _react3.default.createElement(
+              _reactNative.Text,
+              {
+                style: {
+                  padding: 10,
+                  color: "green"
+                },
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 65
+                }
+              },
+              "Answered puzzles are marked in green"
+            )
+          );
+        } else if (this.state.page == 3) {
+          tutorialView = _react3.default.createElement(
+            _reactNative.View,
+            {
+              style: styles.tutorialContainer,
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 71
+              }
+            },
+            _react3.default.createElement(_reactNative.Image, {
+              style: styles.icon,
+              source: require(_dependencyMap[7], '../img/compass.png'),
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 72
+              }
+            }),
+            _react3.default.createElement(
+              _reactNative.Text,
+              {
+                style: {
+                  padding: 10
+                },
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 77
+                }
+              },
+              "You have a couple of tools at your disposal to help answer the puzzles... For example you have compass you can access from the side menu (swipe right)"
+            )
+          );
+        } else if (this.state.page == 4) {
+          tutorialView = _react3.default.createElement(
+            _reactNative.View,
+            {
+              style: styles.tutorialContainer,
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 84
+              }
+            },
+            _react3.default.createElement(_reactNative.Image, {
+              style: styles.icon,
+              source: require(_dependencyMap[8], '../img/qr-code.png'),
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 85
+              }
+            }),
+            _react3.default.createElement(
+              _reactNative.Text,
+              {
+                style: {
+                  padding: 10
+                },
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 90
+                }
+              },
+              "You also have a QR code scanner to help answer some of the puzzles... you can also access this from the side menu (swipe right)"
+            ),
+            _react3.default.createElement(
+              _reactNative.Text,
+              {
+                style: {
+                  fontWeight: "bold",
+                  fontSize: 20
+                },
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 95
+                }
+              },
+              "Good luck!"
+            )
+          );
+        }
+
+        var nextButton = _react3.default.createElement(_reactNative.Button, {
+          style: styles.button,
+          onPress: function onPress() {
+            var newPage = _this2.state.page + 1;
+
+            _this2.setState({
+              page: newPage
+            });
+          },
+          title: "Next",
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 102
+          }
+        });
+
+        return _react3.default.createElement(
+          _reactNative.View,
+          {
+            style: {
+              alignItems: 'center'
+            },
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 114
+            }
+          },
+          tutorialView,
+          _react3.default.createElement(
+            _reactNative.View,
+            {
+              style: {
+                flexDirection: "row"
+              },
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 118
+              }
+            },
+            _react3.default.createElement(
+              _reactNative.View,
+              {
+                style: {
+                  margin: 5
+                },
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 120
+                }
+              },
+              this.state.page == 4 ? null : nextButton
+            ),
+            _react3.default.createElement(
+              _reactNative.View,
+              {
+                style: {
+                  margin: 5
+                },
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 126
+                }
+              },
+              _react3.default.createElement(_reactNative.Button, {
+                onPress: function onPress() {
+                  return _this2.props.changeModal(false);
+                },
+                title: "Close",
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 127
+                }
+              })
+            )
+          )
+        );
+      }
+    }]);
+
+    return Tutorial;
+  }(_react2.Component));
+
+  var styles = _reactNative.StyleSheet.create({
+    icon: {
+      width: 64,
+      height: 64
+    },
+    tutorialContainer: {
+      flexDirection: "column",
+      alignItems: "center"
+    }
+  });
+
+  function mapStateToProps(state) {
+    return {
+      appData: state.appData
+    };
+  }
+
+  function mapDispatchToProps(dispatch) {
+    return {
+      changeModal: function changeModal(data) {
+        return dispatch((0, _actions.changeModal)(data));
+      }
+    };
+  }
+
+  exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Tutorial);
+});

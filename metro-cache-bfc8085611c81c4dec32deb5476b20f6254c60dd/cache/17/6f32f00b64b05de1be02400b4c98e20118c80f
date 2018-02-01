@@ -1,0 +1,252 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  var _react2 = require(_dependencyMap[0], "react");
+
+  var _react3 = _interopRequireDefault(_react2);
+
+  var _index = require(_dependencyMap[1], "./../node_modules/react-transform-hmr/lib/index.js");
+
+  var _index2 = _interopRequireDefault(_index);
+
+  var _jsxFileName = "/home/dvas0004/Dropbox/TallinnTreasureHunt/components/Menu.js";
+
+  var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+  var _reactRedux = require(_dependencyMap[2], "react-redux");
+
+  var _reactNative = require(_dependencyMap[3], "react-native");
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+  function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+  var _components = {
+    Menu: {
+      displayName: "Menu"
+    }
+  };
+
+  var _node_modulesReactTransformHmrLibIndexJs2 = (0, _index2.default)({
+    filename: "/home/dvas0004/Dropbox/TallinnTreasureHunt/components/Menu.js",
+    components: _components,
+    locals: [module],
+    imports: [_react3.default]
+  });
+
+  function _wrapComponent(id) {
+    return function (Component) {
+      return _node_modulesReactTransformHmrLibIndexJs2(Component, id);
+    };
+  }
+
+  var window = _reactNative.Dimensions.get('window');
+
+  var styles = _reactNative.StyleSheet.create({
+    menu: {
+      flex: 1,
+      width: window.width / 3 * 2,
+      height: window.height,
+      backgroundColor: '#87CEFA',
+      padding: 20
+    },
+    avatarContainer: {
+      marginBottom: 20,
+      marginTop: 20
+    },
+    buttonContainer: {
+      margin: 10
+    },
+    avatar: {
+      width: 48,
+      height: 48,
+      flex: 1
+    },
+    name: {
+      position: 'absolute',
+      left: 70,
+      top: 20
+    },
+    item: {
+      fontSize: 14,
+      fontWeight: '300',
+      margin: 20
+    }
+  });
+
+  var Menu = _wrapComponent("Menu")(function (_Component) {
+    _inherits(Menu, _Component);
+
+    function Menu(props) {
+      _classCallCheck(this, Menu);
+
+      return _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, props));
+    }
+
+    _createClass(Menu, [{
+      key: "render",
+      value: function render() {
+        var _this2 = this;
+
+        return _react3.default.createElement(
+          _reactNative.ScrollView,
+          {
+            scrollsToTop: false,
+            style: styles.menu,
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 55
+            }
+          },
+          _react3.default.createElement(
+            _reactNative.View,
+            {
+              style: styles.avatarContainer,
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 56
+              }
+            },
+            _react3.default.createElement(_reactNative.Image, {
+              style: styles.avatar,
+              source: require(_dependencyMap[4], '../img/ghost.png'),
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 57
+              }
+            }),
+            _react3.default.createElement(
+              _reactNative.Text,
+              {
+                style: styles.name,
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 61
+                }
+              },
+              this.props.userName
+            )
+          ),
+          _react3.default.createElement(
+            _reactNative.View,
+            {
+              style: styles.buttonContainer,
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 64
+              }
+            },
+            _react3.default.createElement(_reactNative.Button, {
+              onPress: function onPress() {
+                return _this2.props.onItemSelected('About');
+              },
+              style: styles.item,
+              title: "About",
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 65
+              }
+            })
+          ),
+          _react3.default.createElement(
+            _reactNative.View,
+            {
+              style: styles.buttonContainer,
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 73
+              }
+            },
+            _react3.default.createElement(_reactNative.Button, {
+              onPress: function onPress() {
+                return _this2.props.onItemSelected('Tutorial');
+              },
+              style: styles.item,
+              title: "Tutorial",
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 74
+              }
+            })
+          ),
+          _react3.default.createElement(
+            _reactNative.View,
+            {
+              style: styles.buttonContainer,
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 82
+              }
+            },
+            _react3.default.createElement(_reactNative.Button, {
+              onPress: function onPress() {
+                return _this2.props.onItemSelected('QRreader');
+              },
+              style: styles.item,
+              title: "QR Code reader",
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 83
+              }
+            })
+          ),
+          _react3.default.createElement(
+            _reactNative.View,
+            {
+              style: styles.buttonContainer,
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 90
+              }
+            },
+            _react3.default.createElement(_reactNative.Button, {
+              onPress: function onPress() {
+                return _this2.props.onItemSelected('Compass');
+              },
+              style: styles.item,
+              title: "Compass",
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 91
+              }
+            })
+          )
+        );
+      }
+    }]);
+
+    return Menu;
+  }(_react2.Component));
+
+  function mapStateToProps(state) {
+    return {
+      appData: state.appData
+    };
+  }
+
+  function mapDispatchToProps(dispatch) {
+    return {
+      sendLocation: function (_sendLocation) {
+        function sendLocation(_x) {
+          return _sendLocation.apply(this, arguments);
+        }
+
+        sendLocation.toString = function () {
+          return _sendLocation.toString();
+        };
+
+        return sendLocation;
+      }(function (data) {
+        return dispatch(sendLocation(data));
+      })
+    };
+  }
+
+  exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Menu);
+});

@@ -1,0 +1,50 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+  var _utils = require(_dependencyMap[0], "./../../utils");
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  var Disconnect = function () {
+    function Disconnect(ref) {
+      _classCallCheck(this, Disconnect);
+
+      this.ref = ref;
+      this.path = ref.path;
+      this._database = ref._database;
+    }
+
+    _createClass(Disconnect, [{
+      key: "set",
+      value: function set(value) {
+        return this._database._native.onDisconnectSet(this.path, {
+          type: (0, _utils.typeOf)(value),
+          value: value
+        });
+      }
+    }, {
+      key: "update",
+      value: function update(values) {
+        return this._database._native.onDisconnectUpdate(this.path, values);
+      }
+    }, {
+      key: "remove",
+      value: function remove() {
+        return this._database._native.onDisconnectRemove(this.path);
+      }
+    }, {
+      key: "cancel",
+      value: function cancel() {
+        return this._database._native.onDisconnectCancel(this.path);
+      }
+    }]);
+
+    return Disconnect;
+  }();
+
+  exports.default = Disconnect;
+});

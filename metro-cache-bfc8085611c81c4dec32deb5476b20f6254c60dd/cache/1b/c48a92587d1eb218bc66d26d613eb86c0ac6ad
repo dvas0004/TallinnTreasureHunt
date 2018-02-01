@@ -1,0 +1,307 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.statics = undefined;
+
+  var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+  var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+  var _User = require(_dependencyMap[0], "./User");
+
+  var _User2 = _interopRequireDefault(_User);
+
+  var _ModuleBase2 = require(_dependencyMap[1], "../../utils/ModuleBase");
+
+  var _ModuleBase3 = _interopRequireDefault(_ModuleBase2);
+
+  var _internals = require(_dependencyMap[2], "../../utils/internals");
+
+  var _internals2 = _interopRequireDefault(_internals);
+
+  var _ConfirmationResult = require(_dependencyMap[3], "./ConfirmationResult");
+
+  var _ConfirmationResult2 = _interopRequireDefault(_ConfirmationResult);
+
+  var _EmailAuthProvider = require(_dependencyMap[4], "./providers/EmailAuthProvider");
+
+  var _EmailAuthProvider2 = _interopRequireDefault(_EmailAuthProvider);
+
+  var _PhoneAuthProvider = require(_dependencyMap[5], "./providers/PhoneAuthProvider");
+
+  var _PhoneAuthProvider2 = _interopRequireDefault(_PhoneAuthProvider);
+
+  var _GoogleAuthProvider = require(_dependencyMap[6], "./providers/GoogleAuthProvider");
+
+  var _GoogleAuthProvider2 = _interopRequireDefault(_GoogleAuthProvider);
+
+  var _GithubAuthProvider = require(_dependencyMap[7], "./providers/GithubAuthProvider");
+
+  var _GithubAuthProvider2 = _interopRequireDefault(_GithubAuthProvider);
+
+  var _TwitterAuthProvider = require(_dependencyMap[8], "./providers/TwitterAuthProvider");
+
+  var _TwitterAuthProvider2 = _interopRequireDefault(_TwitterAuthProvider);
+
+  var _FacebookAuthProvider = require(_dependencyMap[9], "./providers/FacebookAuthProvider");
+
+  var _FacebookAuthProvider2 = _interopRequireDefault(_FacebookAuthProvider);
+
+  var _PhoneAuthListener = require(_dependencyMap[10], "./PhoneAuthListener");
+
+  var _PhoneAuthListener2 = _interopRequireDefault(_PhoneAuthListener);
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+  function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+  var Auth = function (_ModuleBase) {
+    _inherits(Auth, _ModuleBase);
+
+    function Auth(firebaseApp) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+      _classCallCheck(this, Auth);
+
+      var _this = _possibleConstructorReturn(this, (Auth.__proto__ || Object.getPrototypeOf(Auth)).call(this, firebaseApp, options, true));
+
+      _this._user = null;
+      _this._authResult = null;
+
+      _this.addListener(_get(Auth.prototype.__proto__ || Object.getPrototypeOf(Auth.prototype), "_getAppEventName", _this).call(_this, 'auth_state_changed'), _this._onInternalAuthStateChanged.bind(_this));
+
+      _this.addListener(_get(Auth.prototype.__proto__ || Object.getPrototypeOf(Auth.prototype), "_getAppEventName", _this).call(_this, 'phone_auth_state_changed'), _this._onInternalPhoneAuthStateChanged.bind(_this));
+
+      _this.addListener(_get(Auth.prototype.__proto__ || Object.getPrototypeOf(Auth.prototype), "_getAppEventName", _this).call(_this, 'auth_id_token_changed'), _this._onInternalIdTokenChanged.bind(_this));
+
+      _this._native.addAuthStateListener();
+
+      _this._native.addIdTokenListener();
+
+      return _this;
+    }
+
+    _createClass(Auth, [{
+      key: "_onInternalPhoneAuthStateChanged",
+      value: function _onInternalPhoneAuthStateChanged(event) {
+        var eventKey = "phone:auth:" + event.requestKey + ":" + event.type;
+        this.emit(eventKey, event.state);
+      }
+    }, {
+      key: "_setAuthState",
+      value: function _setAuthState(auth) {
+        this._authResult = auth;
+        this._user = auth && auth.user ? new _User2.default(this, auth.user) : null;
+        this.emit(this._getAppEventName('onUserChanged'), this._user);
+      }
+    }, {
+      key: "_onInternalAuthStateChanged",
+      value: function _onInternalAuthStateChanged(auth) {
+        this._setAuthState(auth);
+
+        this.emit(this._getAppEventName('onAuthStateChanged'), this._user);
+      }
+    }, {
+      key: "_onInternalIdTokenChanged",
+      value: function _onInternalIdTokenChanged(auth) {
+        this._setAuthState(auth);
+
+        this.emit(this._getAppEventName('onIdTokenChanged'), this._user);
+      }
+    }, {
+      key: "_interceptUserValue",
+      value: function _interceptUserValue(promise) {
+        var _this2 = this;
+
+        return promise.then(function (result) {
+          if (!result) _this2._setAuthState(null);else if (result.user) _this2._setAuthState(result);else if (result.uid) _this2._setAuthState({
+            authenticated: true,
+            user: result
+          });
+          return _this2._user;
+        });
+      }
+    }, {
+      key: "_interceptUndefinedUserValue",
+      value: function _interceptUndefinedUserValue(promise) {
+        return this._interceptUserValue(promise).then(function () {});
+      }
+    }, {
+      key: "onAuthStateChanged",
+      value: function onAuthStateChanged(listener) {
+        this.log.info('Creating onAuthStateChanged listener');
+        this.on(this._getAppEventName('onAuthStateChanged'), listener);
+        if (this._authResult) listener(this._user || null);
+        return this._offAuthStateChanged.bind(this, listener);
+      }
+    }, {
+      key: "_offAuthStateChanged",
+      value: function _offAuthStateChanged(listener) {
+        this.log.info('Removing onAuthStateChanged listener');
+        this.removeListener(this._getAppEventName('onAuthStateChanged'), listener);
+      }
+    }, {
+      key: "onIdTokenChanged",
+      value: function onIdTokenChanged(listener) {
+        this.log.info('Creating onIdTokenChanged listener');
+        this.on(this._getAppEventName('onIdTokenChanged'), listener);
+        if (this._authResult) listener(this._user || null);
+        return this._offIdTokenChanged.bind(this, listener);
+      }
+    }, {
+      key: "_offIdTokenChanged",
+      value: function _offIdTokenChanged(listener) {
+        this.log.info('Removing onIdTokenChanged listener');
+        this.removeListener(this._getAppEventName('onIdTokenChanged'), listener);
+      }
+    }, {
+      key: "onUserChanged",
+      value: function onUserChanged(listener) {
+        this.log.info('Creating onUserChanged listener');
+        this.on(this._getAppEventName('onUserChanged'), listener);
+        if (this._authResult) listener(this._user || null);
+        return this._offUserChanged.bind(this, listener);
+      }
+    }, {
+      key: "_offUserChanged",
+      value: function _offUserChanged(listener) {
+        this.log.info('Removing onUserChanged listener');
+        this.removeListener(this._getAppEventName('onUserChanged'), listener);
+      }
+    }, {
+      key: "signOut",
+      value: function signOut() {
+        return this._interceptUndefinedUserValue(this._native.signOut());
+      }
+    }, {
+      key: "signInAnonymously",
+      value: function signInAnonymously() {
+        return this._interceptUserValue(this._native.signInAnonymously());
+      }
+    }, {
+      key: "createUserWithEmailAndPassword",
+      value: function createUserWithEmailAndPassword(email, password) {
+        return this._interceptUserValue(this._native.createUserWithEmailAndPassword(email, password));
+      }
+    }, {
+      key: "signInWithEmailAndPassword",
+      value: function signInWithEmailAndPassword(email, password) {
+        return this._interceptUserValue(this._native.signInWithEmailAndPassword(email, password));
+      }
+    }, {
+      key: "signInWithCustomToken",
+      value: function signInWithCustomToken(customToken) {
+        return this._interceptUserValue(this._native.signInWithCustomToken(customToken));
+      }
+    }, {
+      key: "signInWithCredential",
+      value: function signInWithCredential(credential) {
+        return this._interceptUserValue(this._native.signInWithCredential(credential.providerId, credential.token, credential.secret));
+      }
+    }, {
+      key: "signInWithPhoneNumber",
+      value: function signInWithPhoneNumber(phoneNumber) {
+        var _this3 = this;
+
+        return this._native.signInWithPhoneNumber(phoneNumber).then(function (result) {
+          return new _ConfirmationResult2.default(_this3, result.verificationId);
+        });
+      }
+    }, {
+      key: "verifyPhoneNumber",
+      value: function verifyPhoneNumber(phoneNumber, autoVerifyTimeout) {
+        return new _PhoneAuthListener2.default(this, phoneNumber, autoVerifyTimeout);
+      }
+    }, {
+      key: "sendPasswordResetEmail",
+      value: function sendPasswordResetEmail(email, actionCodeSettings) {
+        return this._native.sendPasswordResetEmail(email, actionCodeSettings);
+      }
+    }, {
+      key: "confirmPasswordReset",
+      value: function confirmPasswordReset(code, newPassword) {
+        return this._native.confirmPasswordReset(code, newPassword);
+      }
+    }, {
+      key: "applyActionCode",
+      value: function applyActionCode(code) {
+        return this._native.applyActionCode(code);
+      }
+    }, {
+      key: "checkActionCode",
+      value: function checkActionCode(code) {
+        return this._native.checkActionCode(code);
+      }
+    }, {
+      key: "getCurrentUser",
+      value: function getCurrentUser() {
+        return this._interceptUserValue(this._native.getCurrentUser());
+      }
+    }, {
+      key: "fetchProvidersForEmail",
+      value: function fetchProvidersForEmail(email) {
+        return this._native.fetchProvidersForEmail(email);
+      }
+    }, {
+      key: "getRedirectResult",
+      value: function getRedirectResult() {
+        throw new Error(_internals2.default.STRINGS.ERROR_UNSUPPORTED_MODULE_METHOD(Auth, 'getRedirectResult'));
+      }
+    }, {
+      key: "setPersistence",
+      value: function setPersistence() {
+        throw new Error(_internals2.default.STRINGS.ERROR_UNSUPPORTED_MODULE_METHOD(Auth, 'setPersistence'));
+      }
+    }, {
+      key: "signInAndRetrieveDataWithCredential",
+      value: function signInAndRetrieveDataWithCredential() {
+        throw new Error(_internals2.default.STRINGS.ERROR_UNSUPPORTED_MODULE_METHOD(Auth, 'signInAndRetrieveDataWithCredential'));
+      }
+    }, {
+      key: "signInWithPopup",
+      value: function signInWithPopup() {
+        throw new Error(_internals2.default.STRINGS.ERROR_UNSUPPORTED_MODULE_METHOD(Auth, 'signInWithPopup'));
+      }
+    }, {
+      key: "signInWithRedirect",
+      value: function signInWithRedirect() {
+        throw new Error(_internals2.default.STRINGS.ERROR_UNSUPPORTED_MODULE_METHOD(Auth, 'signInWithRedirect'));
+      }
+    }, {
+      key: "currentUser",
+      get: function get() {
+        return this._user;
+      }
+    }, {
+      key: "namespace",
+      get: function get() {
+        return 'firebase:auth';
+      }
+    }]);
+
+    return Auth;
+  }(_ModuleBase3.default);
+
+  Auth._NAMESPACE = 'auth';
+  Auth._NATIVE_MODULE = 'RNFirebaseAuth';
+  exports.default = Auth;
+  var statics = exports.statics = {
+    EmailAuthProvider: _EmailAuthProvider2.default,
+    PhoneAuthProvider: _PhoneAuthProvider2.default,
+    GoogleAuthProvider: _GoogleAuthProvider2.default,
+    GithubAuthProvider: _GithubAuthProvider2.default,
+    TwitterAuthProvider: _TwitterAuthProvider2.default,
+    FacebookAuthProvider: _FacebookAuthProvider2.default,
+    PhoneAuthState: {
+      CODE_SENT: 'sent',
+      AUTO_VERIFY_TIMEOUT: 'timeout',
+      AUTO_VERIFIED: 'verified',
+      ERROR: 'error'
+    }
+  };
+});

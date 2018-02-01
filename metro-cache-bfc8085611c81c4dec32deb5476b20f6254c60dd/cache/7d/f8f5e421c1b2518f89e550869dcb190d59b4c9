@@ -1,0 +1,8 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+  'use strict';
+
+  var React = require(_dependencyMap[0], 'react-native');
+
+  var ReactNativeHeading = React.NativeModules.ReactNativeHeading;
+  module.exports = ReactNativeHeading;
+});

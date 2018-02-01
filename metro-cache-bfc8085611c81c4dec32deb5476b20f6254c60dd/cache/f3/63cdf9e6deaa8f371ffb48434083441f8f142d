@@ -1,0 +1,115 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.statics = undefined;
+
+  var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+  var _ModuleBase2 = require(_dependencyMap[0], "./../../utils/ModuleBase");
+
+  var _ModuleBase3 = _interopRequireDefault(_ModuleBase2);
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+  function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+  var AlphaNumericUnderscore = /^[a-zA-Z0-9_]+$/;
+  var ReservedEventNames = ['app_clear_data', 'app_uninstall', 'app_update', 'error', 'first_open', 'in_app_purchase', 'notification_dismiss', 'notification_foreground', 'notification_open', 'notification_receive', 'os_update', 'session_start', 'user_engagement'];
+
+  var Analytics = function (_ModuleBase) {
+    _inherits(Analytics, _ModuleBase);
+
+    function Analytics(firebaseApp) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+      _classCallCheck(this, Analytics);
+
+      return _possibleConstructorReturn(this, (Analytics.__proto__ || Object.getPrototypeOf(Analytics)).call(this, firebaseApp, options));
+    }
+
+    _createClass(Analytics, [{
+      key: "logEvent",
+      value: function logEvent(name) {
+        var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+        if (ReservedEventNames.includes(name)) {
+          throw new Error("event name '" + name + "' is a reserved event name and can not be used.");
+        }
+
+        if (!AlphaNumericUnderscore.test(name)) {
+          throw new Error("Event name '" + name + "' is invalid. Names should contain 1 to 32 alphanumeric characters or underscores.");
+        }
+
+        if (params && Object.keys(params).length > 25) throw new Error('Maximum number of parameters exceeded (25).');
+
+        this._native.logEvent(name, params);
+      }
+    }, {
+      key: "setAnalyticsCollectionEnabled",
+      value: function setAnalyticsCollectionEnabled(enabled) {
+        this._native.setAnalyticsCollectionEnabled(enabled);
+      }
+    }, {
+      key: "setCurrentScreen",
+      value: function setCurrentScreen(screenName, screenClassOverride) {
+        this._native.setCurrentScreen(screenName, screenClassOverride);
+      }
+    }, {
+      key: "setMinimumSessionDuration",
+      value: function setMinimumSessionDuration() {
+        var milliseconds = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 10000;
+
+        this._native.setMinimumSessionDuration(milliseconds);
+      }
+    }, {
+      key: "setSessionTimeoutDuration",
+      value: function setSessionTimeoutDuration() {
+        var milliseconds = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1800000;
+
+        this._native.setSessionTimeoutDuration(milliseconds);
+      }
+    }, {
+      key: "setUserId",
+      value: function setUserId(id) {
+        this._native.setUserId(id);
+      }
+    }, {
+      key: "setUserProperty",
+      value: function setUserProperty(name, value) {
+        this._native.setUserProperty(name, value);
+      }
+    }, {
+      key: "setUserProperties",
+      value: function setUserProperties(object) {
+        for (var _iterator = Object.keys(object), _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[typeof Symbol === "function" ? Symbol.iterator : "@@iterator"]();;) {
+          var _ref;
+
+          if (_isArray) {
+            if (_i >= _iterator.length) break;
+            _ref = _iterator[_i++];
+          } else {
+            _i = _iterator.next();
+            if (_i.done) break;
+            _ref = _i.value;
+          }
+
+          var property = _ref;
+
+          this._native.setUserProperty(property, object[property]);
+        }
+      }
+    }]);
+
+    return Analytics;
+  }(_ModuleBase3.default);
+
+  Analytics._NAMESPACE = 'analytics';
+  Analytics._NATIVE_MODULE = 'RNFirebaseAnalytics';
+  exports.default = Analytics;
+  var statics = exports.statics = {};
+});

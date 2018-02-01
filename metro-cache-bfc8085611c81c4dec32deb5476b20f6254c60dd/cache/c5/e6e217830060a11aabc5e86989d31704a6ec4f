@@ -1,0 +1,231 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  var _react2 = require(_dependencyMap[0], "react");
+
+  var _react3 = _interopRequireDefault(_react2);
+
+  var _index = require(_dependencyMap[1], "./../node_modules/react-transform-hmr/lib/index.js");
+
+  var _index2 = _interopRequireDefault(_index);
+
+  var _jsxFileName = "/home/dvas0004/Dropbox/TallinnTreasureHunt/components/InnerModal.js";
+
+  var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+  var _reactNative = require(_dependencyMap[2], "react-native");
+
+  var _reactRedux = require(_dependencyMap[3], "react-redux");
+
+  var _actions = require(_dependencyMap[4], "../actions");
+
+  var _QRreader = require(_dependencyMap[5], "./QRreader");
+
+  var _QRreader2 = _interopRequireDefault(_QRreader);
+
+  var _Compass = require(_dependencyMap[6], "./Compass");
+
+  var _Compass2 = _interopRequireDefault(_Compass);
+
+  var _Tutorial = require(_dependencyMap[7], "./Tutorial");
+
+  var _Tutorial2 = _interopRequireDefault(_Tutorial);
+
+  var _About = require(_dependencyMap[8], "./About");
+
+  var _About2 = _interopRequireDefault(_About);
+
+  var _Position = require(_dependencyMap[9], "./Position");
+
+  var _Position2 = _interopRequireDefault(_Position);
+
+  var _CorrectAnswer = require(_dependencyMap[10], "./CorrectAnswer.js");
+
+  var _CorrectAnswer2 = _interopRequireDefault(_CorrectAnswer);
+
+  var _WrongAnswer = require(_dependencyMap[11], "./WrongAnswer.js");
+
+  var _WrongAnswer2 = _interopRequireDefault(_WrongAnswer);
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+  function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+  var _components = {
+    InnerModal: {
+      displayName: "InnerModal"
+    }
+  };
+
+  var _node_modulesReactTransformHmrLibIndexJs2 = (0, _index2.default)({
+    filename: "/home/dvas0004/Dropbox/TallinnTreasureHunt/components/InnerModal.js",
+    components: _components,
+    locals: [module],
+    imports: [_react3.default]
+  });
+
+  function _wrapComponent(id) {
+    return function (Component) {
+      return _node_modulesReactTransformHmrLibIndexJs2(Component, id);
+    };
+  }
+
+  var InnerModal = _wrapComponent("InnerModal")(function (_Component) {
+    _inherits(InnerModal, _Component);
+
+    function InnerModal(props) {
+      _classCallCheck(this, InnerModal);
+
+      return _possibleConstructorReturn(this, (InnerModal.__proto__ || Object.getPrototypeOf(InnerModal)).call(this, props));
+    }
+
+    _createClass(InnerModal, [{
+      key: "closeModal",
+      value: function closeModal() {
+        console.log("Closing Modal...");
+        this.props.changeModal(false);
+      }
+    }, {
+      key: "render",
+      value: function render() {
+        var _this2 = this;
+
+        buttonView = _react3.default.createElement(_reactNative.Button, {
+          onPress: function onPress() {
+            return _this2.closeModal();
+          },
+          title: "Close",
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 29
+          }
+        });
+
+        if (this.props.curView == null) {
+          curComponent = null;
+          buttonRequired = true;
+        } else if (this.props.curView == "QRreader") {
+          curComponent = _react3.default.createElement(_QRreader2.default, {
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 39
+            }
+          });
+          buttonRequired = false;
+        } else if (this.props.curView == "Compass") {
+          curComponent = _react3.default.createElement(_Compass2.default, {
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 42
+            }
+          });
+          buttonRequired = true;
+        } else if (this.props.curView == "Tutorial") {
+          curComponent = _react3.default.createElement(_Tutorial2.default, {
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 45
+            }
+          });
+          buttonRequired = false;
+        } else if (this.props.curView == "About") {
+          curComponent = _react3.default.createElement(_About2.default, {
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 48
+            }
+          });
+          buttonRequired = false;
+        } else if (this.props.curView == "Position") {
+          curComponent = _react3.default.createElement(_Position2.default, {
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 51
+            }
+          });
+          buttonRequired = false;
+        } else if (this.props.curView == "CorrectAnswer") {
+          curComponent = _react3.default.createElement(_CorrectAnswer2.default, {
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 54
+            }
+          });
+          buttonRequired = false;
+        } else if (this.props.curView == "WrongAnswer") {
+          curComponent = _react3.default.createElement(_WrongAnswer2.default, {
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 57
+            }
+          });
+          buttonRequired = false;
+        }
+
+        return _react3.default.createElement(
+          _reactNative.View,
+          {
+            style: styles.innerContainer,
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 63
+            }
+          },
+          _react3.default.createElement(
+            _reactNative.View,
+            {
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 64
+              }
+            },
+            curComponent
+          ),
+          _react3.default.createElement(
+            _reactNative.View,
+            {
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 67
+              }
+            },
+            buttonRequired ? buttonView : null
+          )
+        );
+      }
+    }]);
+
+    return InnerModal;
+  }(_react2.Component));
+
+  function mapStateToProps(state) {
+    return {
+      appData: state.appData
+    };
+  }
+
+  function mapDispatchToProps(dispatch) {
+    return {
+      changeModal: function changeModal(data) {
+        return dispatch((0, _actions.changeModal)(data));
+      }
+    };
+  }
+
+  var styles = _reactNative.StyleSheet.create({
+    innerContainer: {
+      flex: 1,
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }
+  });
+
+  exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(InnerModal);
+});

@@ -1,0 +1,48 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  exports.default = function () {
+    var timers = {};
+
+    var middleware = function middleware() {
+      return function (dispatch) {
+        return function (action) {
+          var _action$meta = action.meta;
+          _action$meta = _action$meta === undefined ? {} : _action$meta;
+          var _action$meta$debounce = _action$meta.debounce;
+          var debounce = _action$meta$debounce === undefined ? {} : _action$meta$debounce;
+          var type = action.type;
+          var time = debounce.time;
+          var _debounce$key = debounce.key;
+          var key = _debounce$key === undefined ? type : _debounce$key;
+          var _debounce$cancel = debounce.cancel;
+          var cancel = _debounce$cancel === undefined ? false : _debounce$cancel;
+          var shouldDebounce = time && key || cancel && key;
+
+          if (!shouldDebounce) {
+            return dispatch(action);
+          }
+
+          if (timers[key]) {
+            clearTimeout(timers[key]);
+          }
+
+          if (!cancel) {
+            return new Promise(function (resolve) {
+              timers[key] = setTimeout(function () {
+                resolve(dispatch(action));
+              }, time);
+            });
+          }
+        };
+      };
+    };
+
+    middleware._timers = timers;
+    return middleware;
+  };
+});

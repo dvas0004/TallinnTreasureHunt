@@ -1,0 +1,215 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  var _react2 = require(_dependencyMap[0], "react");
+
+  var _react3 = _interopRequireDefault(_react2);
+
+  var _index = require(_dependencyMap[1], "./../node_modules/react-transform-hmr/lib/index.js");
+
+  var _index2 = _interopRequireDefault(_index);
+
+  var _jsxFileName = "/home/dvas0004/Dropbox/TallinnTreasureHunt/components/watchGeoPosition.js";
+
+  var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+  var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+  var _reactNative = require(_dependencyMap[2], "react-native");
+
+  var _actions = require(_dependencyMap[3], "../actions");
+
+  var _reactRedux = require(_dependencyMap[4], "react-redux");
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+  function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+  var _components = {
+    WatchGeoPosition: {
+      displayName: "WatchGeoPosition"
+    }
+  };
+
+  var _node_modulesReactTransformHmrLibIndexJs2 = (0, _index2.default)({
+    filename: "/home/dvas0004/Dropbox/TallinnTreasureHunt/components/watchGeoPosition.js",
+    components: _components,
+    locals: [module],
+    imports: [_react3.default]
+  });
+
+  function _wrapComponent(id) {
+    return function (Component) {
+      return _node_modulesReactTransformHmrLibIndexJs2(Component, id);
+    };
+  }
+
+  var WatchGeoPosition = _wrapComponent("WatchGeoPosition")(function (_Component) {
+    _inherits(WatchGeoPosition, _Component);
+
+    function WatchGeoPosition(props) {
+      _classCallCheck(this, WatchGeoPosition);
+
+      var _this = _possibleConstructorReturn(this, (WatchGeoPosition.__proto__ || Object.getPrototypeOf(WatchGeoPosition)).call(this, props));
+
+      _this.state = _extends({}, _this.props.appData, {
+        latitude: null,
+        longitude: null,
+        error: null
+      });
+      return _this;
+    }
+
+    _createClass(WatchGeoPosition, [{
+      key: "componentDidMount",
+      value: function componentDidMount() {
+        var _this2 = this;
+
+        console.log(this.state);
+        navigator.geolocation.getCurrentPosition(function (position) {
+          _this2.props.sendLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          });
+
+          _this2.setState({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            error: null
+          });
+        }, function (error) {
+          return _this2.setState({
+            error: "From getCurrentPosition: " + error.message
+          });
+        }, {
+          enableHighAccuracy: true,
+          timeout: 60000
+        });
+        this.watchId = navigator.geolocation.watchPosition(function (position) {
+          var alreadySending = false;
+
+          if (!alreadySending) {
+            alreadySending = true;
+            console.log("Updating your position...");
+            setTimeout(function () {
+              _this2.props.sendLocation({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+              });
+
+              _this2.setState({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                error: null
+              });
+
+              alreadySending = false;
+            }, 5000);
+          }
+        }, function (error) {
+          return _this2.setState({
+            error: error.message
+          });
+        }, {
+          enableHighAccuracy: true,
+          timeout: 20000,
+          distanceFilter: 10
+        });
+      }
+    }, {
+      key: "componentWillUnmount",
+      value: function componentWillUnmount() {
+        navigator.geolocation.clearWatch(this.watchId);
+      }
+    }, {
+      key: "render",
+      value: function render() {
+        console.log("WatchGeoPosition rendered with:");
+        console.log(this.state);
+        var positionSource = this.props.appData.position || this.state;
+        var latitude = positionSource.latitude;
+        var longitude = positionSource.longitude;
+        return _react3.default.createElement(
+          _reactNative.View,
+          {
+            style: this.props.style,
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 81
+            }
+          },
+          _react3.default.createElement(
+            _reactNative.Text,
+            {
+              style: {
+                fontWeight: "bold"
+              },
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 82
+              }
+            },
+            "Your Position:"
+          ),
+          _react3.default.createElement(
+            _reactNative.Text,
+            {
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 83
+              }
+            },
+            "Latitude: ",
+            latitude
+          ),
+          _react3.default.createElement(
+            _reactNative.Text,
+            {
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 84
+              }
+            },
+            "Longitude: ",
+            longitude
+          ),
+          this.state.error ? _react3.default.createElement(
+            _reactNative.Text,
+            {
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 85
+              }
+            },
+            "Error: ",
+            this.state.error
+          ) : null
+        );
+      }
+    }]);
+
+    return WatchGeoPosition;
+  }(_react2.Component));
+
+  function mapStateToProps(state) {
+    return {
+      appData: state.appData
+    };
+  }
+
+  function mapDispatchToProps(dispatch) {
+    return {
+      sendLocation: function sendLocation(data) {
+        return dispatch((0, _actions.sendLocation)(data));
+      }
+    };
+  }
+
+  exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(WatchGeoPosition);
+});

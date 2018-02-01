@@ -1,0 +1,144 @@
+__d(function (global, require, module, exports, _dependencyMap) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  var _react2 = require(_dependencyMap[0], "react");
+
+  var _react3 = _interopRequireDefault(_react2);
+
+  var _index = require(_dependencyMap[1], "./../node_modules/react-transform-hmr/lib/index.js");
+
+  var _index2 = _interopRequireDefault(_index);
+
+  var _jsxFileName = "/home/dvas0004/Dropbox/TallinnTreasureHunt/components/QRreader.js";
+
+  var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+  var _reactNative = require(_dependencyMap[2], "react-native");
+
+  var _reactNativeQrcodeScanner = require(_dependencyMap[3], "react-native-qrcode-scanner");
+
+  var _reactNativeQrcodeScanner2 = _interopRequireDefault(_reactNativeQrcodeScanner);
+
+  var _reactRedux = require(_dependencyMap[4], "react-redux");
+
+  var _actions = require(_dependencyMap[5], "../actions");
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+  function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+  var _components = {
+    QRreader: {
+      displayName: "QRreader"
+    }
+  };
+
+  var _node_modulesReactTransformHmrLibIndexJs2 = (0, _index2.default)({
+    filename: "/home/dvas0004/Dropbox/TallinnTreasureHunt/components/QRreader.js",
+    components: _components,
+    locals: [module],
+    imports: [_react3.default]
+  });
+
+  function _wrapComponent(id) {
+    return function (Component) {
+      return _node_modulesReactTransformHmrLibIndexJs2(Component, id);
+    };
+  }
+
+  var QRreader = _wrapComponent("QRreader")(function (_Component) {
+    _inherits(QRreader, _Component);
+
+    function QRreader() {
+      var _ref;
+
+      var _temp, _this, _ret;
+
+      _classCallCheck(this, QRreader);
+
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = QRreader.__proto__ || Object.getPrototypeOf(QRreader)).call.apply(_ref, [this].concat(args))), _this), _this.onBarCodeRead = function (e) {
+        _reactNative.Vibration.vibrate(1000);
+
+        _reactNative.Alert.alert('QR Code Scanned', e.data, [{
+          text: 'OK',
+          onPress: function onPress() {
+            return console.log('OK Pressed');
+          }
+        }], {
+          cancelable: false
+        });
+
+        console.log("Barcode Found!", "Type: " + e.type + "\nData: " + e.data);
+      }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(QRreader, [{
+      key: "closeModal",
+      value: function closeModal() {
+        console.log("Closing Modal...");
+        this.props.changeModal(false);
+      }
+    }, {
+      key: "render",
+      value: function render() {
+        var _this2 = this;
+
+        return _react3.default.createElement(_reactNativeQrcodeScanner2.default, {
+          topContent: _react3.default.createElement(
+            _reactNative.Text,
+            {
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 43
+              }
+            },
+            "Scan the QR code."
+          ),
+          bottomContent: _react3.default.createElement(_reactNative.Button, {
+            onPress: function onPress() {
+              return _this2.closeModal();
+            },
+            title: "Close",
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 48
+            }
+          }),
+          onRead: this.onBarCodeRead.bind(this),
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 41
+          }
+        });
+      }
+    }]);
+
+    return QRreader;
+  }(_react2.Component));
+
+  function mapStateToProps(state) {
+    return {
+      appData: state.appData
+    };
+  }
+
+  function mapDispatchToProps(dispatch) {
+    return {
+      changeModal: function changeModal(data) {
+        return dispatch((0, _actions.changeModal)(data));
+      }
+    };
+  }
+
+  exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(QRreader);
+});
